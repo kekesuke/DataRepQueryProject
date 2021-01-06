@@ -1,13 +1,11 @@
 const router = require('express').Router();
-const config = require('../Config')
+const config = require('config')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const auth = require('../Middleware/Auth')
-const User = require('../Models/User');
+const auth = require('../../Middleware/Auth')
+const User = require('../../Models/User');
 
 //
-const { JWT_SECRET } = config;
-const router = Router();
 
 /**
  * @route   POST api/auth/login
@@ -27,12 +25,12 @@ router.post('/login', async (req, res) => {
     // Check for existing user
     const user = await User.findOne({ username });
     if (!user) throw Error('User does not exist');
-
+    //campere the hash passwords and validate it
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw Error('Invalid credentials');
-
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: 3600 });
-    if (!token) throw Error('Couldnt sign the token');
+    //signing the json web token
+    const token = jwt.sign({ id: user._id }, config.get('jwtSecret'), { expiresIn: 3600 });
+    if (!token) throw Error('cannnot sign the token');
 
     res.status(200).json({
       token,
@@ -48,7 +46,7 @@ router.post('/login', async (req, res) => {
 });
 
 /**
- * @route   POST api/users
+ * @route   POST api/auth/register
  * @desc    Register new user
  * @access  Public
  */
@@ -65,7 +63,7 @@ router.post('/register', async (req, res) => {
     const user = await User.findOne({ email });
     if (user) throw Error('User already exists');
 
-    const salt = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(10);//gen salt 10 represents the rounds as higher as it is more secure it becomes but it takes more time to generate
     if (!salt) throw Error('Something went wrong with bcrypt');
 
     const hash = await bcrypt.hash(password, salt);
@@ -80,7 +78,7 @@ router.post('/register', async (req, res) => {
     const savedUser = await newUser.save();
     if (!savedUser) throw Error('Something went wrong saving the user');
 
-    const token = jwt.sign({ id: savedUser._id }, JWT_SECRET, {
+    const token = jwt.sign({ id: savedUser._id }, config.get('jwtSecret'), {
       expiresIn: 3600
     });
 

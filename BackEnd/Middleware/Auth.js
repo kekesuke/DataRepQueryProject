@@ -1,9 +1,8 @@
 const jwt = require('jsonwebtoken')
-const config = require('../Config')
+const config = require('config')
 
-const { JWT_SECRET } = config;
 
-export default (req, res, next) => {
+function auth(req, res, next) {
   const token = req.header('x-auth-token');
 
   // Check for token
@@ -12,11 +11,13 @@ export default (req, res, next) => {
 
   try {
     // Verify token
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, config.get('jwtSecret'));
     // Add user from payload
     req.user = decoded;
-    next();
+    next();// it will call the next piece of the middleware 
   } catch (e) {
-    res.status(400).json({ msg: 'Token is not valid' });
+    res.status(400).json({ msg: 'The token is invalid' });
   }
 };
+
+module.exports = auth;

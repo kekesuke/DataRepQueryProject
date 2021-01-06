@@ -1,5 +1,5 @@
 import React from 'react';
-import { WowItems } from './WowItems';
+import { WowItems } from '../WowItems/WowItems';
 
 
 export class Items extends React.Component{

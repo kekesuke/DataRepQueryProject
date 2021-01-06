@@ -1,5 +1,5 @@
 import React from 'react';
-import { Items } from './Items';
+import { Items } from '../Items/Items';
 import axios from 'axios';
 
 export class ShowItems extends React.Component {
