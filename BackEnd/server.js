@@ -34,14 +34,16 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept");
+        "Origin, X-Requested-With, x-auth-token, Content-Type, Accept");
     next();
 });
 
 
 app.use('/api/items', require('./Routes/api/Items'))
+app.use('/api/items/:id', require('./Routes/api/Items'))
 app.use('/api/users', require('./Routes/api/Users'))
 app.use('/api/auth', require('./Routes/api/Auth'))
+
 
 
 

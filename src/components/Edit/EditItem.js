@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios'
 
+
 export class EditItem extends React.Component {
     constructor() {
         super();
@@ -23,13 +24,15 @@ export class EditItem extends React.Component {
     componentDidMount() {
         axios.get('http://localhost:4000/api/items/' + this.props.match.params.id)
             .then((response) => {
+                console.log(JSON.stringify(response.data.name))
                 this.setState({
                     _id: response.data._id,
-                    name: response.data.Name,
-                    slot: response.data.Slot,
-                    price: response.data.Price,
-                    imgUrl: response.data.ImgUrl
+                    name: response.data.name,
+                    slot: response.data.slot,
+                    price: response.data.price,
+                    imgUrl: response.data.imgUrl
                 })
+                console.log("test" + this.state.name)
             })
             .catch((err) => {
                 console.log(err)
@@ -40,10 +43,10 @@ export class EditItem extends React.Component {
         e.preventDefault();
         const editMovie = {
             _id: this.state._id,
-            Name: this.state.name,
-            Slot: this.state.slot,
-            Price: this.state.price,
-            ImgUrl: this.state.imgUrl
+            name: this.state.name,
+            slot: this.state.slot,
+            price: this.state.price,
+            imgUrl: this.state.imgUrl
 
         }
         //HTTP client that allows us to make GET and POST requests from the browser
@@ -84,44 +87,44 @@ export class EditItem extends React.Component {
     render() {
         return (//divs/form/labels/input field to get the information and to be formated
             <div className='App'>
-            <form onSubmit={this.onSubmit}>
-                <div className='form-group'>
-                    <label>Item Name</label>
-                    <input type='text'
-                        className="form-control"
-                        value={this.state.name}
-                        onChange={this.onChangeName}>
-                    </input>
-                </div>
-                <div className='form-group'>
-                    <label>Item Slot</label>
-                    <input type='text'
-                        className="form-control"
-                        value={this.state.slot}
-                        onChange={this.onChangeSlot}>
-                    </input>
-                </div>
-                <div className='form-group'>
-                    <label>Item Price</label>
-                    <input type='number'
-                        className="form-control"
-                        value={this.state.price}
-                        onChange={this.onChangePrice}>
-                    </input>
-                </div>
-                <div className='form-group'>
-                    <label>Item Img URL</label>
-                    <input type='text'
-                        className="form-control"
-                        value={this.state.imgUrl}
-                        onChange={this.onChangeImgUrl}>
-                    </input>
-                </div>
-                <div className='form-group'>
-                    <input type='submit' value='Update Item' className='btn btn-primary'></input>
-                </div>
-            </form>
-        </div>
+                <form onSubmit={this.onSubmit}>
+                    <div className='form-group'>
+                        <label>Item Name</label>
+                        <input type='text'
+                            className="form-control"
+                            value={this.state.name}
+                            onChange={this.onChangeName}>
+                        </input>
+                    </div>
+                    <div className='form-group'>
+                        <label>Item Slot</label>
+                        <input type='text'
+                            className="form-control"
+                            value={this.state.slot}
+                            onChange={this.onChangeSlot}>
+                        </input>
+                    </div>
+                    <div className='form-group'>
+                        <label>Item Price</label>
+                        <input type='number'
+                            className="form-control"
+                            value={this.state.price}
+                            onChange={this.onChangePrice}>
+                        </input>
+                    </div>
+                    <div className='form-group'>
+                        <label>Item Img URL</label>
+                        <input type='text'
+                            className="form-control"
+                            value={this.state.imgUrl}
+                            onChange={this.onChangeImgUrl}>
+                        </input>
+                    </div>
+                    <div className='form-group'>
+                        <input type='submit' value='Update Item' className='btn btn-primary'></input>
+                    </div>
+                </form>
+            </div>
         )
     }
 }

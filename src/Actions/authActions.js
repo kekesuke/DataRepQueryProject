@@ -53,8 +53,33 @@ export const loadUser = () => (dispatch, getState) => {
             });
         });
 }
-//logout user
 
+
+export const login = ({ username, password }) => dispatch => {
+    //headers
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    //request body 
+    const body = JSON.stringify({ username, password })
+
+    axios.post('http://localhost:4000/api/auth/login', body, config)
+        .then(res => dispatch({
+            type: LOGIN_SUCCESS,
+            payload: res.data
+        }))// IF its succsess we send the payload to auth reducer else send error
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'));
+            dispatch({
+                type: LOGIN_FAIL
+            })
+        })
+}
+
+//logout user
 export const logout = () => {
     return {
         type: LOGOUT_SUCCESS

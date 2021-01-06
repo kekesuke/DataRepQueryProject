@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
         newUser.password = hash;
         newUser.save()
           .then(user => {
-            jwt.sign( //singing the jsonweb token with the secret key and set it to expire in 1h
+            jwt.sign( //signing the jsonweb token with the secret key and set it to expire in 1h
               { id: user.id }, config.get('jwtSecret'), { expiresIn: 3600 },//when we send the token the user id will be there so it will know which user it is
               (err, token) => {
                 if (err) throw err;

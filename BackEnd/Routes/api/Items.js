@@ -21,9 +21,30 @@ router.get('/', (req, res) => {
 
 router.post('/', auth, (req, res) => {
     const newItem = new Item({
-        name: req.body.name
+        name: req.body.name,
+        slot: req.body.slot,
+        price: req.body.price,
+        imgUrl: req.body.imgUrl,
+
     })
     newItem.save().then(item => res.json(item));
+})
+
+//get item by id
+router.get('/:id', (req, res) => {
+    Item.findById(req.params.id, (err, data) => {
+        res.json(data);
+    })
+})
+
+//update
+//listening for put request to update
+router.put('/:id', (req, res) => {
+    console.log("TEEEEEEEST")
+    //searching and update
+    Item.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, data) => {
+        res.send(data);
+    })
 })
 
 //@route delete api/items

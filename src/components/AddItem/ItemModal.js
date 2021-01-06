@@ -16,7 +16,10 @@ import { ModalBody } from 'react-bootstrap'
 class ItemModal extends Component {
     state = {
         modal: false,
-        name: ''
+        name: '',
+        slot: '',
+        price: '',
+        imgUrl: ''
     }
 
     toggle = () => {
@@ -33,7 +36,10 @@ class ItemModal extends Component {
     onSubmit = (e) => {
         e.preventDefault();
         const newItem = {
-            name: this.state.name
+            name: this.state.name,
+            slot: this.state.slot,
+            price: this.state.price,
+            imgUrl: this.state.imgUrl
         }
 
         //add item via additem action
@@ -51,8 +57,11 @@ class ItemModal extends Component {
                         <ModalBody>
                             <Form onSubmit={this.onSubmit}>
                                 <FormGroup>
-                                    <Label for="item">Item</Label>
-                                    <Input type="text" name="name" id="item" placeholder="Add shopping item" onChange={this.onChange} />
+                                    <Label for="item">Add WoW Item </Label>
+                                    <Input type="text" name="name" id="name" placeholder="Add Item Name" onChange={this.onChange} />
+                                    <Input type="text" name="slot" id="slot" placeholder="Add Item Slot" onChange={this.onChange} />
+                                    <Input type="number" name="price" id="item" placeholder="Add Price" onChange={this.onChange} />
+                                    <Input type="text" name="imgUrl" id="imgUrl" placeholder="Add Image Link" onChange={this.onChange} />
                                     <Button color="dark" style={{ marginTop: '2rem' }} block>Add WoW Item</Button>
                                 </FormGroup>
                             </Form>
